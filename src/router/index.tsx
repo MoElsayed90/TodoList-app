@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import RegisterPage from "../pages/Register";
 import RootLayout from "../pages/Layout";
+import Login from "../pages/Login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,9 @@ const router = createBrowserRouter(
       <Route
         path="register"
         element={<RegisterPage />} />
+      <Route
+        path="login"
+        element={<Login />} />
         </Route>
     </>
   )
