@@ -7,6 +7,7 @@ import {
 import RegisterPage from "../pages/Register";
 import RootLayout from "../pages/Layout";
 import Login from "../pages/Login";
+import Todos from "../pages/Todos";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,9 @@ const router = createBrowserRouter(
       <Route
         path="login"
         element={<Login />} />
+      <Route
+        path="home"
+        element={<Todos />} />
         </Route>
     </>
   )
