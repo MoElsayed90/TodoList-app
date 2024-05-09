@@ -1,4 +1,4 @@
-import { IRegister } from "@/interface";
+import { IRegister } from "../interface";
 
 /* eslint-disable no-useless-escape */
 export const REGISTER_FORM:IRegister[] =[
