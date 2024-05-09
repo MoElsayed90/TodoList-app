@@ -1,6 +1,5 @@
-import { IRegister } from "../interface";
-
 /* eslint-disable no-useless-escape */
+import { IRegister } from "../interface";
 export const REGISTER_FORM:IRegister[] =[
   {
     name : "username",
