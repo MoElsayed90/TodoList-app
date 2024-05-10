@@ -7,8 +7,10 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { RegisterSchema } from "../components/validation";
 import axiosInstance from "../config/axios.config";
-import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
+import { IErrorResponse } from "@/interface";
 interface IFormInput {
   username: string;
   email: string;
@@ -17,31 +19,42 @@ interface IFormInput {
 
 
 const RegisterPage = () => {
-const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({ resolver: yupResolver(RegisterSchema) })
+ /** Handler */
   const onSubmit: SubmitHandler<IFormInput> = async data => {
     setIsLoading(true)
     try {
       const { status } = await axiosInstance.post("/auth/local/register", data);
-        if(status == 200){
-          toast.success('Successfully created!',{
-            position:"bottom-center",
-            duration:4000,
-            style:{
-              backgroundColor:"black",
-              color:"white",
-              width: "fit-content"
-            }
-          })
-        }
+      if (status == 200) {
+        toast.success('Successfully created!', {
+          position: "bottom-center",
+          duration: 4000,
+          style: {
+            backgroundColor: "black",
+            color: "white",
+            width: "fit-content"
+          }
+        })
+      }
     } catch (error) {
-      console.log(error)
-    }finally{
+      const errorObj = error as AxiosError<IErrorResponse>
+      toast.error(`${errorObj.response?.data.error.message}`, {
+        position: "bottom-center",
+        duration: 4000,
+        style: {
+          backgroundColor: "purple",
+          color: "white",
+          width: "fit-content"
+        }
+      })
+    } finally {
       setIsLoading(false)
     }
   }
 
-  console.log(errors)
+
 
   //** Rendered
   const renderRegisterForm = REGISTER_FORM.map(({ name, placeholder, type, validation }, idx) => (
@@ -63,7 +76,7 @@ const [isLoading,setIsLoading] = useState(false)
           <Button className="bg-indigo-500 hover:bg-indigo-700 capitalize" type="submit" fullWidth isLoading={isLoading}>register</Button>
         </form>
       </div>
-      <Toaster />
+
     </>
   );
 };
