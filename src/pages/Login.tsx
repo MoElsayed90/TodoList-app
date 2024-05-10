@@ -25,7 +25,7 @@ const Login = () => {
     try {
       const { status } = await axiosInstance.post("/auth/local/", data);
       if (status == 200) {
-        toast.success('Successfully created!', {
+        toast.success('Successfully login!', {
           position: "bottom-center",
           duration: 4000,
           style: {
