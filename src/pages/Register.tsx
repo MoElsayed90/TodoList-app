@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { RegisterSchema } from "../components/validation";
 import axiosInstance from "../config/axios.config";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
 interface IFormInput {
   username: string;
   email: string;
@@ -16,10 +17,10 @@ interface IFormInput {
 
 
 const RegisterPage = () => {
-
+const [isLoading,setIsLoading] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({ resolver: yupResolver(RegisterSchema) })
   const onSubmit: SubmitHandler<IFormInput> = async data => {
-    console.log(data)
+    setIsLoading(true)
     try {
       const { status } = await axiosInstance.post("/auth/local/register", data);
         if(status == 200){
@@ -35,6 +36,8 @@ const RegisterPage = () => {
         }
     } catch (error) {
       console.log(error)
+    }finally{
+      setIsLoading(false)
     }
   }
 
@@ -57,7 +60,7 @@ const RegisterPage = () => {
           {renderRegisterForm}
 
 
-          <Button className="bg-indigo-500 hover:bg-indigo-700 capitalize" type="submit">register</Button>
+          <Button className="bg-indigo-500 hover:bg-indigo-700 capitalize" type="submit" fullWidth isLoading={isLoading}>register</Button>
         </form>
       </div>
       <Toaster />
