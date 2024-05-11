@@ -1,104 +1,79 @@
+
 import Button from "./ui/Button";
+import axiosInstance from "../config/axios.config";
+import { useQuery } from "@tanstack/react-query";
 
 const TodoList = () => {
+  const storageKey = "loggedInUser";
+  const userDataString = localStorage.getItem(storageKey)
+  const userData = userDataString ? JSON.parse(userDataString) : null;
+  // useEffect(() => {
+  //   try {
+  //     axiosInstance.get("users/me?populate=todos",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${userData.jwt}`
+  //         }
+  //       }
+  //     ).then(res => setTodos(res.data.todos)).catch(err => console.log("The Error", err))
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // },[userData.jwt,setTodos])
+  const { isPending, error, data } = useQuery({
+    queryKey: ['todos'],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("users/me?populate=todos",
+        {
+          headers: {
+            Authorization: `Bearer ${userData.jwt}`
+          }
+        }
+      )
+      return data
+    }
+
+  })
+  if (isPending) return <h2>Loading ...</h2>;
+  if (error) return 'An error has occurred: ' + error.message;
+  console.log(data.todos)
   return (
     <>
-      <div className="space-y-5 flex flex-col mt-10">
-
-
-        <div
-          className="space-y-5 bg-gray-100 hover:bg-neutral-200  duration-300 p-3 rounded-xl even:bg-gray-100 "
-        >
-          <p className="w-full font-semibold flex justify-center">
-            Lorem 
-          </p>
-          <div className="flex items-center justify-center space-x-3 px-16">
-            <Button className="bg-green-600 hover:bg-green-700 rounded-l-badge " >
-              Edit
-            </Button>
-            <Button className="bg-pink-700 hover:bg-pink-800 rounded-r-badge " >
-              Remove
-            </Button>
-          </div>
+      <div className="space-y-1 ">
+        <div className="flex w-fit mx-auto my-10 gap-x-2">
+          <Button variant="default" size={"sm"}>
+            Post new todo
+          </Button>
+          <Button variant="outline" size={"sm"}>
+            Generate todos
+          </Button>
         </div>
-        <div
-          className="space-y-5 bg-gray-100 hover:bg-neutral-200  duration-300 p-3 rounded-xl even:bg-gray-100 "
-        >
-          <p className="w-full font-semibold flex justify-center">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, mollitia.
-          </p>
-          <div className="flex items-center justify-center space-x-3 px-16">
-            <Button className="bg-green-600 hover:bg-green-700 rounded-l-badge " >
-              Edit
-            </Button>
-            <Button className="bg-pink-700 hover:bg-pink-800 rounded-r-badge " >
-              Remove
-            </Button>
-          </div>
-        </div>
-        <div
-          className="space-y-5 bg-gray-100 hover:bg-neutral-200  duration-300 p-3 rounded-xl even:bg-gray-100 "
-        >
-          <p className="w-full font-semibold flex justify-center">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem dolores eveniet qui atque placeat in id doloribus consequuntur vel iusto?
-          </p>
-          <div className="flex items-center justify-center space-x-3 px-16">
-            <Button className="bg-green-600 hover:bg-green-700 rounded-l-badge " >
-              Edit
-            </Button>
-            <Button className="bg-pink-700 hover:bg-pink-800 rounded-r-badge " >
-              Remove
-            </Button>
-          </div>
-        </div>
-        <div
-          className="space-y-5 bg-gray-100 hover:bg-neutral-200  duration-300 p-3 rounded-xl even:bg-gray-100 "
-        >
-          <p className="w-full font-semibold flex justify-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus laudantium culpa dignissimos ullam esse! Delectus repellat minus in, consectetur numquam et porro! Provident unde totam labore nulla ea consequatur sapiente!
-          </p>
-          <div className="flex items-center justify-center space-x-3 px-16">
-            <Button className="bg-green-600 hover:bg-green-700 rounded-l-badge " >
-              Edit
-            </Button>
-            <Button className="bg-pink-700 hover:bg-pink-800 rounded-r-badge " >
-              Remove
-            </Button>
-          </div>
-        </div>
-        <div
-          className="space-y-5 bg-gray-100 hover:bg-neutral-200  duration-300 p-3 rounded-xl even:bg-gray-100 "
-        >
-          <p className="w-full font-semibold flex justify-center">
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quaerat placeat assumenda, quae totam, et alias necessitatibus molestias repellendus natus exercitationem? Sunt, autem sint! Dicta sunt, vitae esse quos sed laboriosam eligendi maiores nobis sint nulla, facilis architecto quibusdam reprehenderit.
-          </p>
-          <div className="flex items-center justify-center space-x-3 px-16">
-            <Button className="bg-green-600 hover:bg-green-700 rounded-l-badge " >
-              Edit
-            </Button>
-            <Button className="bg-pink-700 hover:bg-pink-800 rounded-r-badge " >
-              Remove
-            </Button>
-          </div>
-        </div>
-        <div
-          className="space-y-5 bg-gray-100 hover:bg-neutral-200  duration-300 p-3 rounded-xl even:bg-gray-100 "
-        >
-          <p className="w-full font-semibold flex justify-center">
-           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, corporis assumenda maiores ducimus placeat ea quasi repellendus molestias itaque, tempore quisquam sequi cum rerum? Maxime similique vero quos veniam odio eligendi ex minima explicabo tenetur totam voluptatem illo beatae repudiandae dignissimos ab, quo incidunt pariatur voluptas, exercitationem facilis laboriosam ratione!
-          </p>
-          <div className="flex items-center justify-center space-x-3 px-16">
-            <Button className="bg-green-600 hover:bg-green-700 rounded-l-badge " >
-              Edit
-            </Button>
-            <Button className="bg-pink-700 hover:bg-pink-800 rounded-r-badge " >
-              Remove
-            </Button>
-          </div>
-        </div>
-      
+        {
+          data.todos.map(todo => (
+            <div key={todo.id} className="flex items-center justify-between hover:bg-gray-100 duration-300 p-3 rounded-md even:bg-gray-100">
+              <p className="w-full font-semibold">
+                {todo.title}
+              </p>
+              <div className="flex items-center justify-end w-full space-x-3">
+                <Button
+                  variant={"default"}
+                  size={"sm"}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant={"danger"}
+                  size={"sm"}>
+                  Remove
+                </Button>
+              </div>
+            </div>
+          ))
+        }
 
       </div>
+
+
     </>
   )
 
