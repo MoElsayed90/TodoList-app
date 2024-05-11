@@ -1,33 +1,82 @@
+import { useLocation } from "react-router-dom";
 import Logo from "../assets/TODO LIST Logo - BigCommerce Store Logo with Transparent Background.png"
+import Button from "./ui/Button";
 
 const Navbar = () => {
+  const {pathname} =useLocation()
+const storageKey = "loggedInUser";
+const userDataString = localStorage.getItem(storageKey)
+const userData = userDataString ? JSON.parse(userDataString) : null;
+const Logout = () => {
+  localStorage.removeItem(storageKey)
+  setTimeout(() => {
+    location.replace(pathname)
+  }, 1500);
+}
   return (
     <>
-        <div className="navbar bg-neutral-500  ">
-          <div className="navbar-start">
-            <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-              </div>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Homepage</a></li>
-                <li><a>Portfolio</a></li>
-                <li><a>About</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="navbar-center">
-            <a className="btn btn-ghost text-xl"><img src={Logo} alt="Todo List Logo" className="w-32 h-6" /></a>
-          </div>
-          <div className="navbar-end">
-            <button className="btn btn-ghost btn-circle">
-              <div className="indicator">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                <span className="badge badge-xs badge-primary indicator-item"></span>
-              </div>
-            </button>
-          </div>
+      <div className="navbar bg-neutral-500  ">
+        <div className="navbar-start">
+          <a className="btn btn-ghost text-xl"><img src={Logo} alt="Todo List Logo" className="w-32 h-6" /></a>
+
         </div>
+        <div className="navbar-center">
+          {
+            userData ? (<>
+              <div className="hidden md:flex font-semibold md:justify-between md:items-center  ">
+                <ul className="menu menu-horizontal text-base ">
+                  <li><a href="">Home</a></li>
+                  <li><a href="">Portfolio</a></li>
+                  <li><a onClick={Logout}>Logout</a></li>
+                </ul>
+              </div>
+            </>
+            ) : (
+              <div className="hidden md:flex font-semibold  md:justify-between md:items-center">
+                <ul className="menu menu-horizontal  text-base">
+                  <li><a href="">Home</a></li>
+                  <li><a href="">Rigster</a></li>
+                  <li><a href="">Login</a></li>
+                </ul>
+              </div>
+            )
+          }
+
+
+        </div>
+        <div className="navbar-end ">
+          {
+            userData ?
+              <div className="navbar-end md:flex hidden">
+
+                <Button variant="default" size={"sm"} className="w-20 h-8 "> {userData.user.username}</Button>
+              </div> : null
+          }
+          <div className="dropdown md:hidden  dropdown-bottom dropdown-end flex justify-center items-center space-x-2 ">
+
+            {
+              userData ? <>
+                <div tabIndex={0} role="button" >
+                <Button variant="default" size={"sm"} className="w-20 h-8"> {userData.user.username}</Button>
+                </div>
+                <ul tabIndex={0} className=" menu menu-sm dropdown-content  mt-5 z-[1] p-2 shadow rounded-box w-52 bg-slate-300">
+                  <li><a href="">Homepage</a></li>
+                  <li><a>Portfolio</a></li>
+                  <li><a onClick={Logout}>Logout</a></li>
+                </ul></> : <>  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                </div>
+                <ul tabIndex={0} className=" menu menu-sm dropdown-content  mt-3 z-[1] p-2 shadow rounded-box w-52 bg-slate-300">
+                  <li><a>Homepage</a></li>
+                  <li><a>Login</a></li>
+                  <li><a>Register</a></li>
+                </ul></>
+            }
+
+          </div>
+
+        </div>
+      </div>
     </>
   )
 
