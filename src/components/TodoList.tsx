@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Button from "./ui/Button";
 import useAuthenticationQuery from "../hooks/useAuthenticationQuery";
@@ -15,7 +16,6 @@ const TodoList = () => {
       }
     }
   })
-  // const { data } = await axiosInstance.get("users/me?populate=todos",
 
   if (isPending) return <h2>Loading ...</h2>;
   return (
@@ -30,7 +30,7 @@ const TodoList = () => {
           </Button>
         </div>
         {
-          data.todos.map(todo => (
+          data.todos.map((todo:any) => (
             <div key={todo.id} className="flex items-center justify-between hover:bg-gray-100 duration-300 p-3 rounded-md even:bg-gray-100">
               <p className="w-full font-semibold">
                 {todo.title}
