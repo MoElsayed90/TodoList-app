@@ -1,18 +1,18 @@
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Logo from "../assets/TODO LIST Logo - BigCommerce Store Logo with Transparent Background.png"
 import Button from "./ui/Button";
 
 const Navbar = () => {
-  const {pathname} =useLocation()
-const storageKey = "loggedInUser";
-const userDataString = localStorage.getItem(storageKey)
-const userData = userDataString ? JSON.parse(userDataString) : null;
-const Logout = () => {
-  localStorage.removeItem(storageKey)
-  setTimeout(() => {
-    location.replace(pathname)
-  }, 1500);
-}
+  const { pathname } = useLocation()
+  const storageKey = "loggedInUser";
+  const userDataString = localStorage.getItem(storageKey)
+  const userData = userDataString ? JSON.parse(userDataString) : null;
+  const Logout = () => {
+    localStorage.removeItem(storageKey)
+    setTimeout(() => {
+      location.replace(pathname)
+    }, 1500);
+  }
   return (
     <>
       <div className="navbar bg-neutral-500  ">
@@ -23,20 +23,20 @@ const Logout = () => {
         <div className="navbar-center">
           {
             userData ? (<>
-              <div className="hidden md:flex font-semibold md:justify-between md:items-center  ">
-                <ul className="menu menu-horizontal text-base ">
-                  <li><a href="">Home</a></li>
-                  <li><a href="">Portfolio</a></li>
-                  <li><a onClick={Logout}>Logout</a></li>
+              <div className="hidden md:flex font-semibold  md:justify-between md:items-center  ">
+                <ul className="menu menu-horizontal space-x-4 bg-none text-base ">
+                  <li><NavLink to={"/"}>Home</NavLink></li>
+                  <li><NavLink to={"/"}>Portfolio</NavLink></li>
+                  <li><NavLink to={"/"} onClick={Logout}>Logout</NavLink></li>
                 </ul>
               </div>
             </>
             ) : (
-              <div className="hidden md:flex font-semibold  md:justify-between md:items-center">
+              <div className="hidden md:flex font-semibold   md:justify-between px-10 md:items-center">
                 <ul className="menu menu-horizontal  text-base">
-                  <li><a href="">Home</a></li>
-                  <li><a href="">Rigster</a></li>
-                  <li><a href="">Login</a></li>
+                  <li><NavLink to={"/"}>Home</NavLink></li>
+                  <li><NavLink to={"/Register"}>Register</NavLink></li>
+                  <li><NavLink to={"/login"}>Login</NavLink></li>
                 </ul>
               </div>
             )
@@ -47,7 +47,7 @@ const Logout = () => {
         <div className="navbar-end ">
           {
             userData ?
-              <div className="navbar-end md:flex hidden">
+              <div className="navbar-end md:flex hidden px-8">
 
                 <Button variant="default" size={"sm"} className="w-20 h-8 "> {userData.user.username}</Button>
               </div> : null
@@ -57,7 +57,7 @@ const Logout = () => {
             {
               userData ? <>
                 <div tabIndex={0} role="button" >
-                <Button variant="default" size={"sm"} className="w-20 h-8"> {userData.user.username}</Button>
+                  <Button variant="default" size={"sm"} className="w-20 h-8"> {userData.user.username}</Button>
                 </div>
                 <ul tabIndex={0} className=" menu menu-sm dropdown-content  mt-5 z-[1] p-2 shadow rounded-box w-52 bg-slate-300">
                   <li><a href="">Homepage</a></li>
