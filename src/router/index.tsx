@@ -10,7 +10,11 @@ import Login from "../pages/Login";
 import Todos from "../pages/Todos";
 import HomePage from "../pages";
 import PageNotFound from "../pages/PageNotFound";
+import ProductedRoute from "../auth/ProductedRoute";
 
+const storageKey = "loggedInUser";
+const userDataString = localStorage.getItem(storageKey)
+const userData = userDataString ? JSON.parse(userDataString) : null;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -18,13 +22,28 @@ const router = createBrowserRouter(
 
           <Route
             index
-            element={<HomePage/>} />
+            element={
+              <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
+                <HomePage />
+              </ProductedRoute>
+            } />
       <Route
         path="register"
-        element={<RegisterPage />} />
+        element={
+          <ProductedRoute isAllowed={!userData} redicrectPath={"/login"} data={userData} >
+        <RegisterPage />
+        </ProductedRoute>
+        
+        } />
       <Route
         path="login"
-        element={<Login />} />
+        element={
+          <ProductedRoute isAllowed={!userData} redicrectPath={"/"} data={userData} >
+
+        <Login />
+        </ProductedRoute>
+        
+        } />
       <Route
         path="todos"
         element={<Todos />} />
