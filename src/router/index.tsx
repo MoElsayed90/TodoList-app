@@ -11,6 +11,7 @@ import Todos from "../pages/Todos";
 import HomePage from "../pages";
 import PageNotFound from "../pages/PageNotFound";
 import ProductedRoute from "../auth/ProductedRoute";
+import ErrorHandler from "../components/errors/ErrorHandler";
 
 const storageKey = "loggedInUser";
 const userDataString = localStorage.getItem(storageKey)
@@ -18,7 +19,7 @@ const userData = userDataString ? JSON.parse(userDataString) : null;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route path="/" element={<RootLayout/>}>
+        <Route path="/" element={<RootLayout/>} errorElement={<ErrorHandler/>}>
 
           <Route
             index
