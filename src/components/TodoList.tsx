@@ -1,42 +1,23 @@
 
 import Button from "./ui/Button";
-import axiosInstance from "../config/axios.config";
-import { useQuery } from "@tanstack/react-query";
+import useAuthenticationQuery from "../hooks/useAuthenticationQuery";
 
 const TodoList = () => {
   const storageKey = "loggedInUser";
   const userDataString = localStorage.getItem(storageKey)
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  // useEffect(() => {
-  //   try {
-  //     axiosInstance.get("users/me?populate=todos",
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${userData.jwt}`
-  //         }
-  //       }
-  //     ).then(res => setTodos(res.data.todos)).catch(err => console.log("The Error", err))
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },[userData.jwt,setTodos])
-  const { isPending, error, data } = useQuery({
-    queryKey: ['todos'],
-    queryFn: async () => {
-      const { data } = await axiosInstance.get("users/me?populate=todos",
-        {
-          headers: {
-            Authorization: `Bearer ${userData.jwt}`
-          }
-        }
-      )
-      return data
+  const { isPending, data } = useAuthenticationQuery({
+    queryKey: ["todos"],
+    url:"users/me?populate=todos",
+    config:{
+      headers:{
+        Authorization:`Bearer ${userData.jwt}`,
+      }
     }
-
   })
+  // const { data } = await axiosInstance.get("users/me?populate=todos",
+
   if (isPending) return <h2>Loading ...</h2>;
-  if (error) return 'An error has occurred: ' + error.message;
-  console.log(data.todos)
   return (
     <>
       <div className="space-y-1 ">
