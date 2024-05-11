@@ -11,6 +11,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { IErrorResponse } from "@/interface";
+import { useNavigate } from "react-router-dom";
 interface IFormInput {
   username: string;
   email: string;
@@ -19,6 +20,7 @@ interface IFormInput {
 
 
 const RegisterPage = () => {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({ resolver: yupResolver(RegisterSchema) })
@@ -28,15 +30,19 @@ const RegisterPage = () => {
     try {
       const { status } = await axiosInstance.post("/auth/local/register", data);
       if (status == 200) {
-        toast.success('Successfully created!', {
+        toast.success('Successfully created !', {
           position: "bottom-center",
-          duration: 4000,
+          duration: 2000,
           style: {
             backgroundColor: "black",
             color: "white",
-            width: "fit-content"
+            width: "fit-content",
+            
           }
         })
+        setTimeout(()=>{
+          navigate('/login')
+        },2000)
       }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorResponse>
@@ -73,7 +79,7 @@ const RegisterPage = () => {
           {renderRegisterForm}
 
 
-          <Button className="bg-indigo-500 hover:bg-indigo-700 capitalize" type="submit" fullWidth isLoading={isLoading}>register</Button>
+          <Button className=" capitalize" type="submit" fullWidth isLoading={isLoading}>register</Button>
         </form>
       </div>
 

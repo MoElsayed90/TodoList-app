@@ -10,12 +10,14 @@ import { AxiosError } from "axios";
 import { IErrorResponse } from "../interface";
 import { Login_FORM } from "../data";
 import InputErrorMassage from "../components/InputErrorMassage";
+// import { useNavigate } from "react-router-dom";
 interface IFormInput {
   identifier: string;
   password: string;
 }
 
 const Login = () => {
+  // const navigate  = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({ resolver: yupResolver(loginSchema) })
@@ -23,7 +25,8 @@ const Login = () => {
   const onSubmit: SubmitHandler<IFormInput> = async data => {
     setIsLoading(true)
     try {
-      const { status } = await axiosInstance.post("/auth/local/", data);
+      const { status , data:resData } = await axiosInstance.post("/auth/local/", data);
+      console.log(resData)
       if (status == 200) {
         toast.success('Successfully login!', {
           position: "bottom-center",
@@ -31,9 +34,13 @@ const Login = () => {
           style: {
             backgroundColor: "black",
             color: "white",
-            width: "fit-content"
+            width: "fit-content",
           }
         })
+        localStorage.setItem("loggedInUser",JSON.stringify(resData))
+        setTimeout(()=>{
+          location.replace('/')
+        },2000)
       }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorResponse>
