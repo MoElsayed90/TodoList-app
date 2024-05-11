@@ -26,8 +26,8 @@ const Navbar = () => {
               <div className="hidden md:flex font-semibold  md:justify-between md:items-center  ">
                 <ul className="menu menu-horizontal space-x-4 bg-none text-base ">
                   <li><NavLink to={"/"}>Home</NavLink></li>
-                  <li><NavLink to={"/"}>Portfolio</NavLink></li>
-                  <li><NavLink to={"/"} onClick={Logout}>Logout</NavLink></li>
+                  <li><NavLink to={"profile"}>Profile</NavLink></li>
+                  <li><NavLink to={"login"} onClick={Logout}>Logout</NavLink></li>
                 </ul>
               </div>
             </>
