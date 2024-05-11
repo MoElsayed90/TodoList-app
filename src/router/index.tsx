@@ -12,6 +12,7 @@ import HomePage from "../pages";
 import PageNotFound from "../pages/PageNotFound";
 import ProductedRoute from "../auth/ProductedRoute";
 import ErrorHandler from "../components/errors/ErrorHandler";
+import Profile from "../pages/Profile";
 
 const storageKey = "loggedInUser";
 const userDataString = localStorage.getItem(storageKey)
@@ -33,6 +34,14 @@ const router = createBrowserRouter(
         element={
           <ProductedRoute isAllowed={!userData} redicrectPath={"/login"} data={userData} >
         <RegisterPage />
+        </ProductedRoute>
+        
+        } />
+      <Route
+        path="profile"
+        element={
+          <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
+        <Profile />
         </ProductedRoute>
         
         } />
