@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Dialog, Transition } from '@headlessui/react'
-import { FC, Fragment, ReactNode, memo } from 'react'
+import { FC, Fragment, ReactNode } from 'react'
 export interface IPROPS {
     isOpen: boolean;
     closeModal: () => void;
@@ -56,4 +56,4 @@ export interface IPROPS {
         </>
     )
 }
-export default memo(Modal);
+export default Modal;
