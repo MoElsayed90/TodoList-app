@@ -2,10 +2,6 @@
 
 import Button from "./ui/Button";
 import useAuthenticationQuery from "../hooks/useAuthenticationQuery";
-// import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
-// import { DialogFooter, DialogHeader } from "./ui/dialog";
-// import Input from "./ui/Input";
-// import Textarea from "./ui/Textarea";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { ITodo } from "@/interface";
 import Modal from "./ui/Modal";
@@ -14,11 +10,11 @@ import Textarea from "./ui/Textarea";
 import { Form } from "react-router-dom";
 import axiosInstance from "../config/axios.config";
 import TodoSkeleton from "./TodoSkeleton";
-// import { useState } from "react";
+import { faker } from '@faker-js/faker';
 
 const TodoList = () => {
   const [isEditModelOpen, setIsEditModelOpen] = useState(false)
-  const [queryVersion,setQueryVersion] = useState(1)
+  const [queryVersion, setQueryVersion] = useState(1)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
   const [isUpdate, setIsUpdate] = useState(false)
@@ -70,9 +66,10 @@ const TodoList = () => {
           Authorization: `Bearer ${userData.jwt}`
         }
       })
-      if (status) { closeConfirmModal();
-        setQueryVersion(prev=>prev+1) 
-       }
+      if (status) {
+        closeConfirmModal();
+        setQueryVersion(prev => prev + 1)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -116,6 +113,22 @@ const TodoList = () => {
       }
     )
   }
+  const GenerateFakeData = async () => {
+    for (let i = 0; i < 100; i++) {
+
+      try {
+        await axiosInstance.post(`/todos`, { data: { title :faker.word.words(5), description:faker.lorem.paragraph(3), user: [userData.user.id] } }, {
+          headers: {
+            Authorization: `Bearer ${userData.jwt}`
+          }
+        })
+
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+  }
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsUpdate(true)
@@ -128,7 +141,7 @@ const TodoList = () => {
       })
       if (status === 200) {
         onCloseEditModel()
-        setQueryVersion(prev=>prev+1) 
+        setQueryVersion(prev => prev + 1)
       }
 
     } catch (error) {
@@ -150,7 +163,7 @@ const TodoList = () => {
       })
       if (status === 200) {
         onCloseAddModel()
-        setQueryVersion(prev=>prev+1) 
+        setQueryVersion(prev => prev + 1)
       }
 
     } catch (error) {
@@ -168,7 +181,7 @@ const TodoList = () => {
           <Button variant="default" size={"sm"} onClick={openAddModal}>
             Post new todo
           </Button>
-          <Button variant="outline" size={"sm"}>
+          <Button variant="outline" size={"sm"} onClick={GenerateFakeData}>
             Generate todos
           </Button>
         </div>
