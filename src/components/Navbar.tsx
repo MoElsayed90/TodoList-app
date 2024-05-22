@@ -11,7 +11,7 @@ const Navbar = () => {
     localStorage.removeItem(storageKey)
     setTimeout(() => {
       location.replace(pathname)
-    }, 1500);
+    });
   }
   return (
     <>
@@ -27,6 +27,7 @@ const Navbar = () => {
                 <ul className="menu menu-horizontal space-x-4 bg-none text-base ">
                   <li><NavLink to={"/"}>Home</NavLink></li>
                   <li><NavLink to={"profile"}>Profile</NavLink></li>
+                  <li><NavLink to={"todos"}>Todos</NavLink></li>
                   <li><NavLink to={"login"} onClick={Logout}>Logout</NavLink></li>
                 </ul>
               </div>
@@ -49,7 +50,7 @@ const Navbar = () => {
             userData ?
               <div className="navbar-end md:flex hidden px-8">
 
-                <Button variant="default" size={"sm"} className="w-20 h-8 "> {userData.user.username}</Button>
+                <Button variant="default" size={"sm"} className=" h-8 "> {userData.user.username}</Button>
               </div> : null
           }
           <div className="dropdown md:hidden  dropdown-bottom dropdown-end flex justify-center items-center space-x-2 ">
@@ -57,19 +58,20 @@ const Navbar = () => {
             {
               userData ? <>
                 <div tabIndex={0} role="button" >
-                  <Button variant="default" size={"sm"} className="w-20 h-8"> {userData.user.username}</Button>
+                  <Button variant="default" size={"sm"} className=" h-8"> {userData.user.username}</Button>
                 </div>
                 <ul tabIndex={0} className=" menu menu-sm dropdown-content  mt-5 z-[1] p-2 shadow rounded-box w-52 bg-slate-300">
-                  <li><a href="">Homepage</a></li>
-                  <li><a>Portfolio</a></li>
-                  <li><a onClick={Logout}>Logout</a></li>
+                  <li><NavLink to={"/"}>Home</NavLink></li>
+                  <li><NavLink to={"profile"}>Profile</NavLink></li>
+                  <li><NavLink to={"todos"}>Todos</NavLink></li>
+                  <li><NavLink to={"login"} onClick={Logout}>Logout</NavLink></li>
                 </ul></> : <>  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
                 </div>
                 <ul tabIndex={0} className=" menu menu-sm dropdown-content  mt-3 z-[1] p-2 shadow rounded-box w-52 bg-slate-300">
-                  <li><a>Homepage</a></li>
-                  <li><a>Login</a></li>
-                  <li><a>Register</a></li>
+                  <li><NavLink to={"/"}>Home</NavLink></li>
+                  <li><NavLink to={"/Register"}>Register</NavLink></li>
+                  <li><NavLink to={"/login"}>Login</NavLink></li>
                 </ul></>
             }
 
