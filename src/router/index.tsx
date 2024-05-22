@@ -20,47 +20,53 @@ const userData = userDataString ? JSON.parse(userDataString) : null;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route path="/" element={<RootLayout/>} errorElement={<ErrorHandler/>}>
+      <Route path="/" element={<RootLayout />} errorElement={<ErrorHandler />}>
 
+        <Route
+          index
+          element={
+            <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
+              <HomePage />
+            </ProductedRoute>
+          } />
+        <Route
+          path="register"
+          element={
+            <ProductedRoute isAllowed={!userData} redicrectPath={"/login"} data={userData} >
+              <RegisterPage />
+            </ProductedRoute>
+
+          } />
+        <Route
+          path="profile"
+          element={
+            <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
+              <Profile />
+            </ProductedRoute>
+
+          } />
+        <Route
+          path="login"
+          element={
+            <ProductedRoute isAllowed={!userData} redicrectPath={"/"} data={userData} >
+
+              <Login />
+            </ProductedRoute>
+
+          } />
           <Route
-            index
-            element={
-              <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
-                <HomePage />
-              </ProductedRoute>
-            } />
-      <Route
-        path="register"
-        element={
-          <ProductedRoute isAllowed={!userData} redicrectPath={"/login"} data={userData} >
-        <RegisterPage />
-        </ProductedRoute>
-        
-        } />
-      <Route
-        path="profile"
-        element={
-          <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
-        <Profile />
-        </ProductedRoute>
-        
-        } />
-      <Route
-        path="login"
-        element={
-          <ProductedRoute isAllowed={!userData} redicrectPath={"/"} data={userData} >
+          path="todos"
+          element={
+            <ProductedRoute isAllowed={userData} redicrectPath={"/login"} data={userData} >
+              <Todos />
+            </ProductedRoute>
 
-        <Login />
-        </ProductedRoute>
-        
-        } />
-      <Route
-        path="todos"
-        element={<Todos />} />
-        </Route>
-           {/* Page Not Found */}
+          } />
+
+      </Route>
+      {/* Page Not Found */}
       <Route path="*" element={<PageNotFound />} />
-    
+
     </>
   )
 );
