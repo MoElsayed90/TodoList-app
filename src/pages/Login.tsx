@@ -63,7 +63,7 @@ const Login = () => {
   //** Rendered
   const renderLoginForm = Login_FORM.map(({ name, placeholder, type, validation }, idx) => (
     <div key={idx}>
-      <Input type={type} placeholder={placeholder} {...register(name, validation)} />
+      <Input className={""} type={type} placeholder={placeholder} {...register(name, validation)} />
       {errors[name] && <InputErrorMassage msg={errors[name]?.message} />}
     </div>
   ))

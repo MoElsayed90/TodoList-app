@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:1337/api',
+  baseURL: 'https://todolist-app-server.onrender.com/api/',
   timeout: 1000,
 
 });

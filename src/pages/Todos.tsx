@@ -13,9 +13,9 @@ const Todos = () => {
   const storageKey = "loggedInUser";
   const userDataString = localStorage.getItem(storageKey)
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const { isLoading, data ,isFetching} = useAuthenticationQuery({
+  const { isLoading, data, isFetching } = useAuthenticationQuery({
     queryKey: ["Todo", `${page}`],
-    url: `todos?pagination[pageSize]=50&pagination[page]=${page}`,
+    url: `todos?pagination[pageSize]=5&pagination[page]=${page}`,
     config: {
       headers: {
         Authorization: `Bearer ${userData.jwt}`,
@@ -39,7 +39,6 @@ const Todos = () => {
 
     }
   }
-  console.log(data)
   if (isLoading) return <div className="mt-24">{Array.from({ length: 3 }, (_, idx) => <TodoSkeleton key={idx} />)}</div>
   /** Handlers */
   const handlerOnClickPrev = () => {
@@ -59,7 +58,7 @@ const Todos = () => {
       </div>
       {
         data.data.map(({ attributes, id }: { id: number; attributes: { title: string } }) => (
-          <>
+        
             <div key={id} className=" space-x-4 flex  w-1/2 hover:bg-gray-100 duration-300 p-3 rounded-md even:bg-gray-100">
 
               <p className=" font-semibold">
@@ -67,17 +66,20 @@ const Todos = () => {
               </p>
 
             </div>
-          </>
+         
         ))
       }
-      <Paginator
-        page={page}
-        pageCount={data.meta.pagination.pageCount}
-        total={data.meta.pagination.total}
-        isLoading={isLoading || isFetching}
-        setPrev={handlerOnClickPrev}
-        setNext={handlerOnClickNext}
-      />
+      <div className="">
+
+        <Paginator
+          page={page}
+          pageCount={data.meta.pagination.pageCount}
+          total={data.meta.pagination.total}
+          isLoading={isLoading || isFetching}
+          setPrev={handlerOnClickPrev}
+          setNext={handlerOnClickNext}
+        />
+      </div>
     </div>
   )
 

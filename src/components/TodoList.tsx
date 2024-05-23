@@ -187,16 +187,14 @@ const TodoList = () => {
         </div>
         {
           data.todos.map((todo: ITodo) => (
-            <>
               <div key={todo.id} className=" space-x-4 flex items-center justify-between hover:bg-gray-100 duration-300 p-3 rounded-md even:bg-gray-100">
                 <p className="w-full font-semibold">
-                  {todo.id} - {todo.title}
+                   {todo.title}
                 </p>
 
                 <Button variant={"default"} size={"sm"} className="w-1/3" onClick={() => onOpenEditModel(todo)}>Edit </Button>
                 <Button variant={"danger"} size={"sm"} className="w-1/3" onClick={() => openConfirmModal(todo)}>Remove </Button>
               </div>
-            </>
           ))
         }
         {/* Add Model  */}
